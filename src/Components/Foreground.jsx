@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleRight, faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -11,8 +11,17 @@ export const Foreground = ({ dtheme, changeTheme }) => {
     else {
         text = 'black'
     }
-    const [todos, setTodos] = useState([])
+    const [todos, setTodos] = useState(() => {
+        const localval = localStorage.getItem("ITEMS")
+        if (localval == null) return [];
+        return JSON.parse(localval)
+    })
     const [newItem,setNewItem]  = useState("")
+
+    useEffect(() => {
+        localStorage.setItem("ITEMS",JSON.stringify(todos))
+        localStorage.setItem("THEME",JSON.stringify(dtheme))
+    },[todos,dtheme])
 
     function handleSubmit(e) {
         e.preventDefault()

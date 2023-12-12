@@ -3,7 +3,11 @@ import { Background } from "./Components/Background";
 import { Foreground } from "./Components/Foreground";
 
 export default function App() {
-    const [dtheme,setTheme] = useState(true)
+    const [dtheme, setTheme] = useState(() => {
+        const theme = localStorage.getItem("THEME")
+        if (theme == null) return false
+        return JSON.parse(theme)
+    })
 
     function changeTheme() {
         if (dtheme) {
